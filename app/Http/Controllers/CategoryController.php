@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index() {
-        $categories = [
-            [
-                'id' => 1,
-                'name' => 'PHP',
-                'created_at' => '2020/11/11',
-                'updated_at' => '2020/12/11'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Python',
-                'created_at' => '2020/12/05',
-                'updated_at' => '2020/12/05'
-            ],
-        ];
+    public function index() 
+    {
+        $categories = Category::all();
         return view('category.index', compact('categories'));
+    }
+
+    public function create()
+    {
+        return view('category.create');
+    }
+
+    public function store(Request $request)
+    {
+        $post = $request->all();
+
+        Category::create($post);
+
+        return redirect()->route('category.index');
     }
 }
