@@ -19,7 +19,11 @@
                 <td>{{ $value['updated_at'] }}</td>
                 <td>
                     <a href="{{ route('category.edit', $value['id']) }}">編集</a>
-                    <a href="">削除</a>
+                    <form action="{{ route('category.delete', $value['id']) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">削除</button>
+                    </form>                
                 </td>
             </tr>
         @endforeach
