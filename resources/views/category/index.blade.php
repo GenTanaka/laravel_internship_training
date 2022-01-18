@@ -18,7 +18,7 @@
                 <td>{{ $value['created_at'] }}</td>
                 <td>{{ $value['updated_at'] }}</td>
                 <td>
-                    <a href="{{-- route('category.edit',$value['id']) --}}">編集</a>
+                    <a href="{{ route('category.edit', $value['id']) }}">編集</a>
                     <a href="">削除</a>
                 </td>
             </tr>
