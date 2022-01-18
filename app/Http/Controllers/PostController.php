@@ -34,7 +34,9 @@ class PostController extends Controller
         $post->category_id = $input['category_id'];
         $post->save();
 
-        $post->tags()->sync($input['tag_ids']);
+        if (!empty('tag_ids')){
+            $post->tags()->sync($input['tag_ids']);
+        }
 
         return redirect()->route('post.index');
     }
