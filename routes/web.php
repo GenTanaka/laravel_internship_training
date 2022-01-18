@@ -18,6 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// category関係のルーティング
 Route::get('/category', 'CategoryController@index')->name('category.index');
 
 Route::get('/category/create', 'CategoryController@create')->name('category.create');
@@ -27,3 +28,10 @@ Route::get('/category/edit/{id}', 'CategoryController@edit')->name('category.edi
 Route::put('/category/update/{id}', 'CategoryController@update')->name('category.update');
 
 Route::delete('/category/delete/{id}', 'CategoryController@delete')->name('category.delete');
+
+
+// post関係のルーティング
+Route::get('/post', 'PostController@index')->name('post.index');
+
+Route::get('/post/create', 'PostController@create')->name('post.create');
+Route::post('/post/store', 'PostController@store')->name('post.store');

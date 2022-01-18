@@ -1,5 +1,9 @@
 @extends('layouts.default')
 
+@section('title')
+    カテゴリ編集
+@endsection
+
 @section('content')
 <form action="{{ route('category.update', $category->id) }}" method="post">
     @csrf
