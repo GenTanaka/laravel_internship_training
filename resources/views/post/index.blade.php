@@ -22,8 +22,15 @@
         <tbody>
             @foreach ($posts as $post)
             <tr>
-                <td>{{ $post['title'] }}</td>
+                <td><a href="{{ route('post.show', $post['id']) }}">{{ $post['title'] }}</a></td>
                 <td>{{ $post['created_at'] }}</td>
+                <td>
+                    <form action="{{ route('post.delete', $post['id']) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">削除</button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>

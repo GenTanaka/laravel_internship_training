@@ -34,10 +34,48 @@ class PostController extends Controller
         $post->category_id = $input['category_id'];
         $post->save();
 
-        if (!empty('tag_ids')){
+        if (!empty($input['tag_ids'])){
             $post->tags()->sync($input['tag_ids']);
         }
 
+        return redirect()->route('post.index');
+    }
+
+    public function show($id)
+    {
+        $post = Post::find($id);
+        $post['category'] = Category::find($post['category_id'])['name'];
+        $post['body'] = nl2br(htmlspecialchars($post['body'], ENT_QUOTES, 'UTF-8'));
+        return view('post.show', compact('post'));
+    }
+
+    public function edit($id)
+    {
+        $post = Post::find($id);
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('post.edit', compact('post', 'categories', 'tags'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $post = $request->all();
+
+        unset($post['_token'], $post['_method']);
+        Post::where(['id' => $id])->update($post);
+        $postTable = new Post;
+
+        if (!empty($input['tag_ids'])){
+            $postTable->tags()->sync($input['tag_ids']);
+        }
+
+        return redirect()->route('post.index');
+    }
+
+    public function delete($id)
+    {
+        $post = Post::find($id);
+        $post->delete();
         return redirect()->route('post.index');
     }
 }
