@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<form action="{{ route('post.store') }}" method="post">
+<form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div>
         <input type="text" name="title" placeholder="タイトル">
@@ -19,6 +19,9 @@
             <option value="{{ $value->id }}">{{ $value->name }}</option>
             @endforeach
         </select>
+    </div>
+    <div>
+        <input type="file" name="image">
     </div>
     <div>
         @foreach ($tags as $key => $value)

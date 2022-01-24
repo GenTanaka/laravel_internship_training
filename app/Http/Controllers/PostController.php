@@ -26,12 +26,13 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-
+        $input['image'] = $request->file('image')->store('images');
         
         $post = new Post;
         $post->title = $input['title'];
         $post->body = $input['body'];
         $post->category_id = $input['category_id'];
+        $post->image = $input['image'];
         $post->save();
 
         if (!empty($input['tag_ids'])){
