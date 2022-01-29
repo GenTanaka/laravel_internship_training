@@ -5,13 +5,22 @@
 @endsection
 
 @section('content')
+@if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li style="color:red;">{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div>
-        <input type="text" name="title" placeholder="タイトル">
+        <input type="text" name="title" placeholder="タイトル" value="{{ old('title') }}">
     </div>
     <div>
-        <textarea name="body" cols="30" rows="10" placeholder="本文"></textarea>
+        <textarea name="body" cols="30" rows="10" placeholder="本文">{{ old('body') }}</textarea>
     </div>
     <div>
         <select name="category_id">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\StoreCategory;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -18,7 +19,7 @@ class CategoryController extends Controller
         return view('category.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreCategory $request)
     {
         $post = $request->all();
 
@@ -34,7 +35,7 @@ class CategoryController extends Controller
         return view('category.edit',compact('category'));
     }
 
-    public function update(Request $request, $id)
+    public function update(StoreCategory $request, $id)
     {
         $post = $request->all();
 

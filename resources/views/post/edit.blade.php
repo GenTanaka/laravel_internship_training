@@ -16,7 +16,7 @@
                 @endforeach
             </select>
         </div>
-        <textarea name="body" id="" cols="30" rows="10"">{{ old('body',$post['body']) }}</textarea>
+        <textarea name="body" id="" cols="30" rows="10"">{{ old('body', $post['body']) }}</textarea>
         <div>
             @foreach ($tags as $key => $value)
             <input type="checkbox" name="tag_ids[]" value="{{ $value->id }}" id="tag_{{$value->id}}">

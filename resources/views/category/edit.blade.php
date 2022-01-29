@@ -5,6 +5,15 @@
 @endsection
 
 @section('content')
+@if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li style="color:red;">{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <form action="{{ route('category.update', $category->id) }}" method="post">
     @csrf
     @method('PUT')

@@ -6,7 +6,9 @@
 
 @section('content')
     <h1>@yield('title')</h1>
-    <a href="{{ route('post.create') }}">新規投稿</a>
+    @if (Auth::check())
+        <a href="{{ route('post.create') }}">新規投稿</a>
+    @endif
     @empty($posts[0])
     <div>
         投稿はありません
@@ -25,11 +27,13 @@
                 <td><a href="{{ route('post.show', $post['id']) }}">{{ $post['title'] }}</a></td>
                 <td>{{ $post['created_at'] }}</td>
                 <td>
-                    <form action="{{ route('post.delete', $post['id']) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit">削除</button>
-                    </form>
+                    @if (Auth::check())
+                        <form action="{{ route('post.delete', $post['id']) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">削除</button>
+                        </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

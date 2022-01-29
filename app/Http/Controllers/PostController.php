@@ -6,10 +6,13 @@ use App\Category;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreBlogPost;
+use App\Mail\CreatePost;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $posts = Post::all();
 
@@ -23,21 +26,26 @@ class PostController extends Controller
         return view('post.create', compact('categories', 'tags'));
     }
 
-    public function store(Request $request)
+    public function store(StoreBlogPost $request)
     {
         $input = $request->all();
-        $input['image'] = $request->file('image')->store('images');
+        if (!empty($request->file('image'))) {
+            $input['image'] = $request->file('image')->store('images');
+        }
         
         $post = new Post;
         $post->title = $input['title'];
         $post->body = $input['body'];
         $post->category_id = $input['category_id'];
-        $post->image = $input['image'];
+        if (!empty($input['image'])) {
+            $post->image = $input['image'];
+        }
         $post->save();
 
         if (!empty($input['tag_ids'])){
             $post->tags()->sync($input['tag_ids']);
         }
+        Mail::to('test@example.com')->send(new CreatePost());
 
         return redirect()->route('post.index');
     }
@@ -58,7 +66,7 @@ class PostController extends Controller
         return view('post.edit', compact('post', 'categories', 'tags'));
     }
 
-    public function update(Request $request, $id)
+    public function update(StoreBlogPost $request, $id)
     {
         $post = $request->all();
 

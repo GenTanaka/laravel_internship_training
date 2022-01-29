@@ -6,7 +6,9 @@
 
 @section('content')
     <h1>@yield('title')</h1>
-    <a href="{{route('category.create')}}">新規作成</a>
+    @if (Auth::check())
+        <a href="{{route('category.create')}}">新規作成</a>
+    @endif
     @empty ($categories[0])
     <div>
         カテゴリが登録されていません
@@ -30,13 +32,15 @@
                 <td>{{ $value['created_at'] }}</td>
                 <td>{{ $value['updated_at'] }}</td>
                 <td>
+                    @if (Auth::check())
                     <a href="{{ route('category.edit', $value['id']) }}">編集</a>
                     <form action="{{ route('category.delete', $value['id']) }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit">削除</button>
-                    </form>                
-                </td>
+                    </form>
+                    @endif
+                    </td>
             </tr>
             @endforeach
         </tbody>

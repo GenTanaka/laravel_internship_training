@@ -6,7 +6,7 @@
 
 @section('content')
     <div>
-        {{-- {{dd(\Storage::url($post['image']))}} --}}
+        {{env('APP_URL')}}
         <h1>@yield('title')</h1>
         <small>カテゴリ：{{ $post['category'] }}</small>
         <p>{!! $post['body'] !!}</p>
