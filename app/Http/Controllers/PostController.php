@@ -8,6 +8,7 @@ use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBlogPost;
 use App\Mail\CreatePost;
+use DB;
 use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
@@ -33,19 +34,26 @@ class PostController extends Controller
             $input['image'] = $request->file('image')->store('images');
         }
         
-        $post = new Post;
-        $post->title = $input['title'];
-        $post->body = $input['body'];
-        $post->category_id = $input['category_id'];
-        if (!empty($input['image'])) {
-            $post->image = $input['image'];
+        DB::beginTransaction();
+        try {
+            $post = new Post;
+            $post->title = $input['title'];
+            $post->body = $input['body'];
+            $post->category_id = $input['category_id'];
+            if (!empty($input['image'])) {
+                $post->image = $input['image'];
+            }
+            $post->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
         }
-        $post->save();
 
         if (!empty($input['tag_ids'])){
             $post->tags()->sync($input['tag_ids']);
         }
-        Mail::to('test@example.com')->send(new CreatePost());
+        $email = 'aaa@example.com';
+        Mail::to($email)->send(new CreatePost($post));
 
         return redirect()->route('post.index');
     }

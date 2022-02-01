@@ -45,6 +45,7 @@
             @endforeach
         </tbody>
     </table>
+    {{ $categories->links() }}
     @endif
 
 @endsection
